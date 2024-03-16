@@ -1,9 +1,15 @@
-import { Box, Tab, TabList, Tabs, Typography } from '@mui/joy';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { Box, Button, Tab, TabList, Tabs, Typography } from '@mui/joy';
+import {
+  Outlet,
+  useLinkClickHandler,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 
 export const RegisterPage = () => {
   const { userType } = useParams();
   const navigate = useNavigate();
+  const handleNavigateToLoginPage = useLinkClickHandler('/login');
 
   console.log({ userType });
 
@@ -27,6 +33,12 @@ export const RegisterPage = () => {
         </TabList>
       </Tabs>
       <Outlet />
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <Typography>Вже маєте акаунт?</Typography>
+        <Button variant="outlined" onClick={handleNavigateToLoginPage}>
+          Увійти
+        </Button>
+      </Box>
     </Box>
   );
 };
