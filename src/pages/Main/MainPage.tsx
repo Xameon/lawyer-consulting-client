@@ -1,5 +1,10 @@
-export const MainPage = () => {
-  console.log('main');
+import { Typography } from '@mui/joy';
+import { useEffect } from 'react';
 
-  return <h1>Main</h1>;
+export const MainPage = () => {
+  useEffect(() => {
+    document.title = 'Lawcons | Сервіс юридичних консультацій онлайн';
+  }, []);
+
+  return <Typography level="h1">Main</Typography>;
 };

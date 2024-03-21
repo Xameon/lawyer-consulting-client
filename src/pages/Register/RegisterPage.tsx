@@ -1,4 +1,5 @@
 import { Box, Button, Tab, TabList, Tabs, Typography } from '@mui/joy';
+import { useEffect } from 'react';
 import {
   Outlet,
   useLinkClickHandler,
@@ -11,7 +12,9 @@ export const RegisterPage = () => {
   const navigate = useNavigate();
   const handleNavigateToLoginPage = useLinkClickHandler('/login');
 
-  console.log({ userType });
+  useEffect(() => {
+    document.title = 'Lawcons | Реєстрація';
+  });
 
   return (
     <Box
