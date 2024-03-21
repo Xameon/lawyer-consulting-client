@@ -1,9 +1,14 @@
 import { Box, Button, Typography } from '@mui/joy';
 import { LoginForm } from '../../components/LoginForm';
 import { useLinkClickHandler } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export const LoginPage = () => {
   const handleNavigateToRegisterPage = useLinkClickHandler('/register/client');
+
+  useEffect(() => {
+    document.title = 'Lawcons | Вхід';
+  }, []);
 
   return (
     <Box
