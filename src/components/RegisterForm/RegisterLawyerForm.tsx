@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   Button,
@@ -7,6 +7,9 @@ import {
   FormLabel,
   IconButton,
   Input,
+  Select,
+  Option,
+  Autocomplete,
 } from '@mui/joy';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -17,37 +20,64 @@ import PersonIcon from '@mui/icons-material/Person';
 import BadgeIcon from '@mui/icons-material/Badge';
 import LockIcon from '@mui/icons-material/Lock';
 import PeopleIcon from '@mui/icons-material/People';
+import { ukrainianRegions } from '../../experimental/Universities/ukrainianRegions';
+import { getUniversities } from '../../experimental/Universities/universities.api';
 
-type RegisterClientFormType = {
+type UniversityType = {
+  region: string;
+  name: string;
+};
+
+type RegisterLawyerFormType = {
   phone: string | null;
   email: string | null;
   name: string | null;
   surname1: string | null;
   surname2: string | null;
   password: string | null;
+  university: UniversityType | null;
 };
 
-const defaultValues: RegisterClientFormType = {
+const defaultValues: RegisterLawyerFormType = {
   phone: null,
   email: null,
   name: null,
   surname1: null,
   surname2: null,
   password: null,
+  university: null,
 };
 
 export const RegisterLawyerForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [universityRegion, setUniversityRegion] = useState<string | null>(null);
+  const [universities, setUniversities] = useState(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterClientFormType>({
+  } = useForm<RegisterLawyerFormType>({
     defaultValues,
   });
 
-  const onSubmit: SubmitHandler<RegisterClientFormType> = (data) => {
+  useEffect(() => {
+    if (!universityRegion) return;
+
+    getUniversities({
+      categoryCode: '01',
+      regionCode: universityRegion,
+    }).then((res) => setUniversities(res));
+  }, [universityRegion]);
+
+  const handleChangeUniversityRegion = (
+    _: unknown,
+    newValue: string | null
+  ) => {
+    setUniversityRegion(newValue);
+  };
+
+  const onSubmit: SubmitHandler<RegisterLawyerFormType> = (data) => {
     console.log(data);
   };
 
@@ -148,6 +178,33 @@ export const RegisterLawyerForm = () => {
           {errors.password?.message && errors.password.message}
         </FormHelperText>
       </FormControl>
+      <FormControl>
+        <Select
+          placeholder="Оберіть область закладу освіти"
+          onChange={handleChangeUniversityRegion}
+          value={universityRegion}
+        >
+          {ukrainianRegions.map(({ code, name }) => (
+            <Option key={code} value={code}>
+              {name}
+            </Option>
+          ))}
+        </Select>
+      </FormControl>
+
+      {universityRegion && (
+        <FormControl>
+          <Autocomplete
+            options={
+              universities?.map(
+                ({ university_name }: unknown) => university_name
+              ) ?? []
+            }
+            placeholder="Оберіть заклад освіти"
+          ></Autocomplete>
+        </FormControl>
+      )}
+
       <Button type="submit" size="md" sx={{ marginBottom: '26px' }}>
         Реєстрація
       </Button>
