@@ -1,7 +1,11 @@
-import { Box, Button, Link, styled, useTheme } from '@mui/joy';
+import { Box, Button, Link, Typography, styled, useTheme } from '@mui/joy';
 import { useLinkClickHandler } from 'react-router-dom';
 import { ThemeStyle } from '../../types/globalTypes';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useAuth } from '../../hooks/useAuth';
+
+// ..................................................
+// Styles
 
 const SideMenuBox = styled(Box)<ThemeStyle>(({ theme }) => ({
   height: '100%',
@@ -15,10 +19,24 @@ const SideMenuBox = styled(Box)<ThemeStyle>(({ theme }) => ({
 }));
 
 export const SideMenu = () => {
+  // ..................................................
+  // Global States
+
+  const { currentUser } = useAuth();
+
+  // ..................................................
+  // Misc Hooks
+
   const theme = useTheme();
+
+  // ..................................................
+  // Functions
 
   const handleNavigateToLoginPage = useLinkClickHandler('/login');
   const handleNavigateToMainPage = useLinkClickHandler('/');
+
+  // ..................................................
+  // Render
 
   return (
     <SideMenuBox theme={theme}>
@@ -39,15 +57,31 @@ export const SideMenu = () => {
       >
         Lawcons
       </Link>
-      <Button
-        variant="soft"
-        sx={{ display: 'flex', justifyContent: 'flex-start', alignSelf: 'end' }}
-        fullWidth
-        startDecorator={<AccountCircleIcon />}
-        onClick={handleNavigateToLoginPage}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          gap: '1rem',
+        }}
       >
-        Увійти в акаунт
-      </Button>
+        <Typography level="h4" color={currentUser ? 'success' : 'danger'}>
+          {currentUser?.email ?? 'Unauthorized'}
+        </Typography>
+        <Button
+          variant="soft"
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+            alignSelf: 'end',
+          }}
+          fullWidth
+          startDecorator={<AccountCircleIcon />}
+          onClick={handleNavigateToLoginPage}
+        >
+          Увійти в акаунт
+        </Button>
+      </Box>
     </SideMenuBox>
   );
 };

@@ -13,6 +13,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
+import { useAuth } from '../hooks/useAuth';
+import { useSignIn } from '../hooks/auth/useSignIn';
 
 type LoginFormType = {
   email: string;
@@ -25,7 +27,22 @@ const defaultValues: LoginFormType = {
 };
 
 export const LoginForm = () => {
+  // ..................................................
+  // Local States
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  // ..................................................
+  // Contexts
+
+  const { setAccessToken, setRefreshToken } = useAuth();
+
+  // ..................................................
+  // API Hooks
+
+  const { mutate: signIn } = useSignIn({ setAccessToken, setRefreshToken });
+
+  // ..................................................
+  // Misc Hooks
 
   const {
     register,
@@ -36,7 +53,7 @@ export const LoginForm = () => {
   });
 
   const onSubmit: SubmitHandler<LoginFormType> = (data) => {
-    console.log(data);
+    signIn(data);
   };
 
   return (
