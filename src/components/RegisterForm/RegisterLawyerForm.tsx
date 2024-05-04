@@ -7,6 +7,7 @@ import {
   FormLabel,
   IconButton,
   Input,
+  styled,
 } from '@mui/joy';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -18,50 +19,65 @@ import BadgeIcon from '@mui/icons-material/Badge';
 import LockIcon from '@mui/icons-material/Lock';
 import PeopleIcon from '@mui/icons-material/People';
 
-type RegisterClientFormType = {
-  phone: string | null;
-  email: string | null;
-  name: string | null;
-  surname1: string | null;
-  surname2: string | null;
-  password: string | null;
+// ..................................................
+// Styles
+
+const Form = styled('form')({
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  alignItems: 'end',
+  columnGap: '12px',
+  rowGap: '8px',
+});
+
+// ..................................................
+// Types
+
+type RegisterClientForm = {
+  phone: string;
+  email: string;
+  name: string;
+  surname1: string;
+  surname2: string;
+  password: string;
 };
 
-const defaultValues: RegisterClientFormType = {
-  phone: null,
-  email: null,
-  name: null,
-  surname1: null,
-  surname2: null,
-  password: null,
+// ..................................................
+// Constants
+
+const defaultValues: RegisterClientForm = {
+  phone: '',
+  email: '',
+  name: '',
+  surname1: '',
+  surname2: '',
+  password: '',
 };
 
 export const RegisterLawyerForm = () => {
+  // ..................................................
+  // Local States
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
+  // ..................................................
+  // Misc Hooks
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterClientFormType>({
+  } = useForm<RegisterClientForm>({
     defaultValues,
   });
 
-  const onSubmit: SubmitHandler<RegisterClientFormType> = (data) => {
+  // ..................................................
+  // Functions
+
+  const onSubmit: SubmitHandler<RegisterClientForm> = (data) => {
     console.log(data);
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        alignItems: 'end',
-        columnGap: '12px',
-        rowGap: '8px',
-      }}
-    >
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <FormControl>
         <FormLabel>Телефон</FormLabel>
         <Input
@@ -151,6 +167,6 @@ export const RegisterLawyerForm = () => {
       <Button type="submit" size="md" sx={{ marginBottom: '26px' }}>
         Реєстрація
       </Button>
-    </form>
+    </Form>
   );
 };

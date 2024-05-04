@@ -1,17 +1,17 @@
 import { useMutation } from '@tanstack/react-query';
-import { signUp } from '../../api/auth/auth.api';
+import { signIn } from '../../api/auth/auth.api';
 
-type UseSignUpProps = {
+type UseSignInProps = {
   setAccessToken: React.Dispatch<React.SetStateAction<string | null>>;
   setRefreshToken: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-export const useSignUp = ({
+export const useSignIn = ({
   setAccessToken,
   setRefreshToken,
-}: UseSignUpProps) => {
+}: UseSignInProps) => {
   return useMutation({
-    mutationFn: signUp,
+    mutationFn: signIn,
     onSuccess: (data) => {
       const { accessToken, refreshToken } = data;
       setAccessToken(accessToken);

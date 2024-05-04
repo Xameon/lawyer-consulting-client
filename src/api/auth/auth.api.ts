@@ -1,16 +1,5 @@
-import { User } from '../../types/globalTypes';
+import { AuthTokens, User } from '../../types/globalTypes';
 import { api } from './api';
-
-// ..................................................
-// #region Types
-
-type AuthTokens = {
-  accessToken: string | null;
-  refreshToken: string | null;
-};
-
-// #endregion
-// ..................................................
 
 // ..................................................
 // #region Sign Up
@@ -32,6 +21,29 @@ type SignUpParams = {
 
 export const signUp = async (params: SignUpParams) => {
   const res = await api.post<AuthTokens>('/auth/sign-up', { ...params });
+
+  return res.data;
+};
+
+// #endregion
+// ..................................................
+
+// ..................................................
+// #region Sign In
+
+// ..................................................
+// Types
+
+type SignInParams = {
+  email: string;
+  password: string;
+};
+
+// ..................................................
+// Sign In API Method
+
+export const signIn = async (params: SignInParams) => {
+  const res = await api.post<AuthTokens>('/auth/sign-in', { ...params });
 
   return res.data;
 };

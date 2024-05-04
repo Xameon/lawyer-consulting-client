@@ -5,7 +5,7 @@ export const useAuth = () => {
   const context = useContext(AuthContext);
 
   if (!context) {
-    throw new Error('"useAuth" should be used inside "AuthProvider"');
+    throw new Error('useAuth should be used inside AuthProvider');
   }
 
   return context;

@@ -7,6 +7,7 @@ import {
   FormLabel,
   IconButton,
   Input,
+  styled,
 } from '@mui/joy';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -17,6 +18,18 @@ import BadgeIcon from '@mui/icons-material/Badge';
 import LockIcon from '@mui/icons-material/Lock';
 import PeopleIcon from '@mui/icons-material/People';
 import { useSignUp } from '../../hooks/auth/useSignUp';
+import { useAuth } from '../../hooks/useAuth';
+
+// ..................................................
+// Styles
+
+const Form = styled('form')({
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  alignItems: 'end',
+  columnGap: '12px',
+  rowGap: '8px',
+});
 
 // ..................................................
 // Types
@@ -40,19 +53,28 @@ const defaultValues: RegisterClientFormType = {
   password: '',
 };
 
-// ..................................................
-// Register Client Form
+/**
+ * Form for register user
+ */
 
 export const RegisterClientForm = () => {
   // ..................................................
-  // States
+  // Local States
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   // ..................................................
+  // Contexts
+
+  const { setAccessToken, setRefreshToken } = useAuth();
+
+  // ..................................................
   // API Hooks
 
-  const { mutate: signUp, isPending } = useSignUp();
+  const { mutate: signUp, isPending } = useSignUp({
+    setAccessToken,
+    setRefreshToken,
+  });
 
   // ..................................................
   // Misc Hooks
@@ -91,16 +113,7 @@ export const RegisterClientForm = () => {
   // Render
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        alignItems: 'end',
-        columnGap: '12px',
-        rowGap: '8px',
-      }}
-    >
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <FormControl sx={{ gridColumn: '1 / -1' }}>
         <FormLabel>Email</FormLabel>
         <Input
@@ -180,6 +193,6 @@ export const RegisterClientForm = () => {
       >
         Реєстрація
       </Button>
-    </form>
+    </Form>
   );
 };
