@@ -15,6 +15,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
 import { useAuth } from '../../hooks/useAuth';
 import { useSignIn } from '../../hooks/auth/useSignIn';
+import { Form } from './styles';
 
 type LoginFormType = {
   email: string;
@@ -63,14 +64,7 @@ export const LoginForm = () => {
   // Render
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '20rem',
-      }}
-    >
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <FormControl>
         <FormLabel>Email</FormLabel>
         <Input
@@ -105,6 +99,6 @@ export const LoginForm = () => {
       <Button type="submit" size="md" sx={{ marginBottom: '26px' }}>
         Увійти
       </Button>
-    </form>
+    </Form>
   );
 };

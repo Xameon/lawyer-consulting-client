@@ -86,7 +86,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const logout = useCallback(() => {
     setAccessToken(null);
     setRefreshToken(null);
-  }, []);
+    setCurrentUser(null);
+    location.replace('/');
+  }, [currentUser]);
 
   // ..................................................
   // Use Effects

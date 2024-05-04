@@ -25,6 +25,7 @@ export const LoginPage = () => {
   useEffect(() => {
     if (currentUser) {
       navigate('/', { replace: true });
+      location.reload();
     }
   }, [currentUser]);
 
