@@ -13,8 +13,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
-import { useAuth } from '../hooks/useAuth';
-import { useSignIn } from '../hooks/auth/useSignIn';
+import { useAuth } from '../../hooks/useAuth';
+import { useSignIn } from '../../hooks/auth/useSignIn';
 
 type LoginFormType = {
   email: string;
@@ -52,9 +52,15 @@ export const LoginForm = () => {
     defaultValues,
   });
 
+  // ..................................................
+  // Functions
+
   const onSubmit: SubmitHandler<LoginFormType> = (data) => {
     signIn(data);
   };
+
+  // ..................................................
+  // Render
 
   return (
     <form

@@ -2,7 +2,6 @@ import { createBrowserRouter } from 'react-router-dom';
 import { MainPage } from './pages/Main/MainPage';
 import { LoginPage } from './pages/Login/LoginPage';
 import { RegisterPage } from './pages/Register/RegisterPage';
-import { RegisterForm } from './components/RegisterForm/RegisterForm';
 import { App } from './App';
 
 export const router = createBrowserRouter([
@@ -18,12 +17,6 @@ export const router = createBrowserRouter([
       {
         path: 'register',
         element: <RegisterPage />,
-        children: [
-          {
-            path: ':userType',
-            element: <RegisterForm />,
-          },
-        ],
       },
     ],
   },

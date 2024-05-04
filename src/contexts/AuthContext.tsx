@@ -1,4 +1,10 @@
-import { createContext, useEffect, useMemo, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { User } from '../types/globalTypes';
 import { useGetUser } from '../hooks/auth/useUserAuth';
 import { useQueryClient } from '@tanstack/react-query';
@@ -16,6 +22,7 @@ type AuthContextType = {
   setAccessToken: React.Dispatch<React.SetStateAction<string | null>>;
   refreshToken: string | null;
   setRefreshToken: React.Dispatch<React.SetStateAction<string | null>>;
+  logout: () => void;
 };
 
 // ..................................................
@@ -28,6 +35,7 @@ export const AuthContext = createContext<AuthContextType>({
   setRefreshToken: () => null,
   currentUser: null,
   setCurrentUser: () => null,
+  logout: () => null,
 });
 
 // #endregion
@@ -47,6 +55,8 @@ type AuthProviderProps = {
 // Auth Provider
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  // ..................................................
+  // Local States
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(
     localStorage.getItem('accessToken')
@@ -55,7 +65,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.getItem('refreshToken')
   );
 
-  const queryClient = useQueryClient();
+  // ..................................................
+  // API Hooks
 
   const { data: userData } = useGetUser({
     accessToken,
@@ -63,6 +74,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setAccessToken,
     setRefreshToken,
   });
+
+  // ..................................................
+  // Misc Hooks
+
+  const queryClient = useQueryClient();
+
+  // ..................................................
+  // Functions
+
+  const logout = useCallback(() => {
+    setAccessToken(null);
+    setRefreshToken(null);
+  }, []);
+
+  // ..................................................
+  // Use Effects
 
   useEffect(() => {
     if (userData) {
@@ -73,10 +100,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, [userData]);
 
   useEffect(() => {
-    localStorage.setItem('accessToken', accessToken ?? '');
-    localStorage.setItem('refreshToken', refreshToken ?? '');
+    if (accessToken && refreshToken) {
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
 
-    queryClient.invalidateQueries({ queryKey: ['auth'] });
+      queryClient.invalidateQueries({ queryKey: ['auth'] });
+    } else {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+    }
   }, [accessToken, refreshToken]);
 
   const values = useMemo(
@@ -87,6 +119,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setAccessToken,
       refreshToken,
       setRefreshToken,
+      logout,
     }),
     [currentUser]
   );

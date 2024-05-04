@@ -22,7 +22,7 @@ export const SideMenu = () => {
   // ..................................................
   // Global States
 
-  const { currentUser } = useAuth();
+  const { currentUser, logout } = useAuth();
 
   // ..................................................
   // Misc Hooks
@@ -77,9 +77,9 @@ export const SideMenu = () => {
           }}
           fullWidth
           startDecorator={<AccountCircleIcon />}
-          onClick={handleNavigateToLoginPage}
+          onClick={currentUser ? logout : handleNavigateToLoginPage}
         >
-          Увійти в акаунт
+          {currentUser ? 'Вийти з акаунту' : 'Увійти в акаунт'}
         </Button>
       </Box>
     </SideMenuBox>

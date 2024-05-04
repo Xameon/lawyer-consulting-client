@@ -57,7 +57,7 @@ const defaultValues: RegisterClientFormType = {
  * Form for register user
  */
 
-export const RegisterClientForm = () => {
+export const RegisterForm = () => {
   // ..................................................
   // Local States
 
