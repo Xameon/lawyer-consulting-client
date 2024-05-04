@@ -13,8 +13,9 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
-import { useAuth } from '../hooks/useAuth';
-import { useSignIn } from '../hooks/auth/useSignIn';
+import { useAuth } from '../../hooks/useAuth';
+import { useSignIn } from '../../hooks/auth/useSignIn';
+import { Form } from './styles';
 
 type LoginFormType = {
   email: string;
@@ -52,19 +53,18 @@ export const LoginForm = () => {
     defaultValues,
   });
 
+  // ..................................................
+  // Functions
+
   const onSubmit: SubmitHandler<LoginFormType> = (data) => {
     signIn(data);
   };
 
+  // ..................................................
+  // Render
+
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '20rem',
-      }}
-    >
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <FormControl>
         <FormLabel>Email</FormLabel>
         <Input
@@ -99,6 +99,6 @@ export const LoginForm = () => {
       <Button type="submit" size="md" sx={{ marginBottom: '26px' }}>
         Увійти
       </Button>
-    </form>
+    </Form>
   );
 };

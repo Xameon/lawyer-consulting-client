@@ -1,10 +1,33 @@
 import { Box, Button, Typography } from '@mui/joy';
-import { LoginForm } from '../../components/LoginForm';
-import { useLinkClickHandler } from 'react-router-dom';
+import { LoginForm } from '../../components/auth/LoginForm';
+import { useLinkClickHandler, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useAuth } from '../../hooks/useAuth';
 
 export const LoginPage = () => {
-  const handleNavigateToRegisterPage = useLinkClickHandler('/register/client');
+  // ..................................................
+  // Functions
+  const handleNavigateToRegisterPage = useLinkClickHandler('/register');
+
+  // ..................................................
+  // Contexts
+
+  const { currentUser } = useAuth();
+
+  // ..................................................
+  // Misc Hooks
+
+  const navigate = useNavigate();
+
+  // ..................................................
+  // Use Effects
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/', { replace: true });
+      location.reload();
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     document.title = 'Lawcons | Вхід';

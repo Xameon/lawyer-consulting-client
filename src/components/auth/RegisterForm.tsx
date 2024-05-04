@@ -7,7 +7,6 @@ import {
   FormLabel,
   IconButton,
   Input,
-  styled,
 } from '@mui/joy';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -19,17 +18,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import PeopleIcon from '@mui/icons-material/People';
 import { useSignUp } from '../../hooks/auth/useSignUp';
 import { useAuth } from '../../hooks/useAuth';
-
-// ..................................................
-// Styles
-
-const Form = styled('form')({
-  display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
-  alignItems: 'end',
-  columnGap: '12px',
-  rowGap: '8px',
-});
+import { Form } from './styles';
 
 // ..................................................
 // Types
@@ -57,7 +46,7 @@ const defaultValues: RegisterClientFormType = {
  * Form for register user
  */
 
-export const RegisterClientForm = () => {
+export const RegisterForm = () => {
   // ..................................................
   // Local States
 

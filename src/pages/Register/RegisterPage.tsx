@@ -1,20 +1,39 @@
-import { Box, Button, Tab, TabList, Tabs, Typography } from '@mui/joy';
+import { Box, Button, Typography } from '@mui/joy';
 import { useEffect } from 'react';
-import {
-  Outlet,
-  useLinkClickHandler,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import { useLinkClickHandler, useNavigate } from 'react-router-dom';
+import { RegisterForm } from '../../components/auth/RegisterForm';
+import { useAuth } from '../../hooks/useAuth';
 
 export const RegisterPage = () => {
-  const { userType } = useParams();
+  // ..................................................
+  // Contexts
+
+  const { currentUser } = useAuth();
+
+  // ..................................................
+  // Misc Hooks
+
   const navigate = useNavigate();
+
+  // ..................................................
+  // Functions
   const handleNavigateToLoginPage = useLinkClickHandler('/login');
+
+  // ..................................................
+  // Use Effects
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/', { replace: true });
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     document.title = 'Lawcons | Реєстрація';
   });
+
+  // ..................................................
+  // Render
 
   return (
     <Box
@@ -25,17 +44,7 @@ export const RegisterPage = () => {
         alignItems: 'center',
       }}
     >
-      <Tabs value={userType}>
-        <TabList>
-          <Tab value="client">
-            <Typography onClick={() => navigate('client')}>Клієнт</Typography>
-          </Tab>
-          <Tab value="lawyer">
-            <Typography onClick={() => navigate('lawyer')}>Юрист</Typography>
-          </Tab>
-        </TabList>
-      </Tabs>
-      <Outlet />
+      <RegisterForm />
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <Typography>Вже маєте акаунт?</Typography>
         <Button variant="outlined" onClick={handleNavigateToLoginPage}>
