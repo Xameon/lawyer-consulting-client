@@ -40,7 +40,10 @@ export const LoginForm = () => {
   // ..................................................
   // API Hooks
 
-  const { mutate: signIn } = useSignIn({ setAccessToken, setRefreshToken });
+  const { mutate: signIn, isPending } = useSignIn({
+    setAccessToken,
+    setRefreshToken,
+  });
 
   // ..................................................
   // Misc Hooks
@@ -74,9 +77,6 @@ export const LoginForm = () => {
           type="email"
           startDecorator={<EmailIcon />}
         />
-        <FormHelperText sx={{ color: 'red', height: '20px' }}>
-          {errors.email?.message && errors.email.message}
-        </FormHelperText>
       </FormControl>
       <FormControl>
         <FormLabel>Пароль</FormLabel>
@@ -92,11 +92,13 @@ export const LoginForm = () => {
             </IconButton>
           }
         />
-        <FormHelperText sx={{ color: 'red', height: '20px' }}>
-          {errors.password?.message && errors.password.message}
-        </FormHelperText>
       </FormControl>
-      <Button type="submit" size="md" sx={{ marginBottom: '26px' }}>
+      <Button
+        type="submit"
+        size="md"
+        sx={{ marginBottom: '26px' }}
+        loading={isPending}
+      >
         Увійти
       </Button>
     </Form>
