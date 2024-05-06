@@ -19,3 +19,14 @@ export type User = {
   email: string;
   avatar: string;
 };
+
+export type Lawyer = {
+  id: number;
+  email: string;
+  phone: string;
+  firstName: string;
+  lastName: string;
+  middleName: string;
+  role: 'lawyer';
+  avatar: string;
+};

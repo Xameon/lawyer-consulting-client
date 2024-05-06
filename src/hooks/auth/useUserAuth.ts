@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { auth, refresh } from '../../api/auth/auth.api';
+import { auth, refresh } from '../../api/auth.api';
 import { AuthTokensNullable } from '../../types/globalTypes';
 
 type UseGetUserProps = AuthTokensNullable & {

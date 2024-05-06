@@ -7,7 +7,7 @@ import { useAuth } from '../../hooks/useAuth';
 export const LoginPage = () => {
   // ..................................................
   // Functions
-  const handleNavigateToRegisterPage = useLinkClickHandler('/register');
+  const navigateToRegisterPage = useLinkClickHandler('/register');
 
   // ..................................................
   // Contexts
@@ -45,7 +45,7 @@ export const LoginPage = () => {
       <LoginForm />
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <Typography>Немає акаунта?</Typography>
-        <Button variant="outlined" onClick={handleNavigateToRegisterPage}>
+        <Button variant="outlined" onClick={navigateToRegisterPage}>
           Зареєструватися
         </Button>
       </Box>

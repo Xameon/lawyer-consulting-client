@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { SideMenu } from './components/SideMenu/SideMenu';
+import { SideMenu } from './components/SideMenu';
 import { Box } from '@mui/joy';
 
 export const App = () => {
@@ -13,7 +13,9 @@ export const App = () => {
       }}
     >
       <SideMenu />
-      <Outlet />
+      <Box sx={{ padding: '1rem' }}>
+        <Outlet />
+      </Box>
     </Box>
   );
 };

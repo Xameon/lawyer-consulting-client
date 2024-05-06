@@ -17,7 +17,7 @@ export const RegisterPage = () => {
 
   // ..................................................
   // Functions
-  const handleNavigateToLoginPage = useLinkClickHandler('/login');
+  const navigateToLoginPage = useLinkClickHandler('/login');
 
   // ..................................................
   // Use Effects
@@ -47,7 +47,7 @@ export const RegisterPage = () => {
       <RegisterForm />
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <Typography>Вже маєте акаунт?</Typography>
-        <Button variant="outlined" onClick={handleNavigateToLoginPage}>
+        <Button variant="outlined" onClick={navigateToLoginPage}>
           Увійти
         </Button>
       </Box>
