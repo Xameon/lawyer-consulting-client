@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   Button,
+  Checkbox,
   FormControl,
-  FormHelperText,
   FormLabel,
   IconButton,
   Input,
@@ -29,6 +29,7 @@ type RegisterClientFormType = {
   surname1: string;
   surname2: string;
   password: string;
+  role: 'user' | 'lawyer';
 };
 
 // ..................................................
@@ -40,6 +41,7 @@ const defaultValues: RegisterClientFormType = {
   surname1: '',
   surname2: '',
   password: '',
+  role: 'user',
 };
 
 /**
@@ -71,6 +73,7 @@ export const RegisterForm = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<RegisterClientFormType>({
     defaultValues,
@@ -86,6 +89,7 @@ export const RegisterForm = () => {
       surname1: lastName,
       surname2: middleName,
       password,
+      role,
     } = data;
 
     signUp({
@@ -94,7 +98,7 @@ export const RegisterForm = () => {
       lastName,
       middleName,
       password,
-      role: 'user',
+      role,
     });
   };
 
@@ -107,27 +111,21 @@ export const RegisterForm = () => {
         <FormLabel>Email</FormLabel>
         <Input
           color={errors.email ? 'danger' : 'neutral'}
-          {...register('email', { required: "Електронна пошта обов'язкова" })}
+          {...register('email', { required: true })}
           id="client-email"
           type="email"
           startDecorator={<EmailIcon />}
         />
-        <FormHelperText sx={{ color: 'red', height: '20px' }}>
-          {errors.email?.message && errors.email.message}
-        </FormHelperText>
       </FormControl>
       <FormControl sx={{ gridColumn: '1 / -1' }}>
         <FormLabel>Ім'я</FormLabel>
         <Input
           color={errors.name ? 'danger' : 'neutral'}
-          {...register('name', { required: "Ім'я обов'язкове" })}
+          {...register('name', { required: true })}
           id="client-name"
           type="text"
           startDecorator={<PersonIcon />}
         />
-        <FormHelperText sx={{ color: 'red', height: '20px' }}>
-          {errors.name?.message && errors.name.message}
-        </FormHelperText>
       </FormControl>
       <FormControl sx={{ gridColumn: '1 / -1' }}>
         <FormLabel>Прізвище</FormLabel>
@@ -138,9 +136,6 @@ export const RegisterForm = () => {
           type="text"
           startDecorator={<BadgeIcon />}
         />
-        <FormHelperText sx={{ color: 'red', height: '20px' }}>
-          {errors.surname1?.message && errors.surname1.message}
-        </FormHelperText>
       </FormControl>
 
       <FormControl sx={{ gridColumn: '1 / -1' }}>
@@ -152,9 +147,6 @@ export const RegisterForm = () => {
           type="text"
           startDecorator={<PeopleIcon />}
         />
-        <FormHelperText sx={{ color: 'red', height: '20px' }}>
-          {errors.surname2?.message && errors.surname2.message}
-        </FormHelperText>
       </FormControl>
       <FormControl>
         <FormLabel>Пароль</FormLabel>
@@ -170,9 +162,16 @@ export const RegisterForm = () => {
             </IconButton>
           }
         />
-        <FormHelperText sx={{ color: 'red', height: '20px' }}>
-          {errors.password?.message && errors.password.message}
-        </FormHelperText>
+      </FormControl>
+      <FormControl>
+        <Checkbox
+          label="Юрист"
+          size="sm"
+          onChange={(e) => {
+            const { checked } = e.target;
+            setValue('role', checked ? 'lawyer' : 'user');
+          }}
+        />
       </FormControl>
       <Button
         type="submit"
