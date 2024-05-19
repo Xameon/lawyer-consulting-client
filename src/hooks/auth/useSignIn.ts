@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { signIn } from '../../api/auth/auth.api';
+import { signIn } from '../../api/auth.api';
 
 type UseSignInProps = {
   setAccessToken: React.Dispatch<React.SetStateAction<string | null>>;

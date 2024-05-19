@@ -1,4 +1,4 @@
-import { AuthTokens, User } from '../../types/globalTypes';
+import { AuthTokens, User } from '../types/globalTypes';
 import { api } from './api';
 
 // ..................................................

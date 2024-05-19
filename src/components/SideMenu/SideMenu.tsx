@@ -64,8 +64,9 @@ export const SideMenu = () => {
   // ..................................................
   // Functions
 
-  const handleNavigateToLoginPage = useLinkClickHandler('/login');
-  const handleNavigateToMainPage = useLinkClickHandler('/');
+  const navigateToMainPage = useLinkClickHandler('/');
+  const navigateToLoginPage = useLinkClickHandler('/login');
+  const navigateToLawyersPage = useLinkClickHandler('/lawyers');
 
   // ..................................................
   // Render
@@ -77,7 +78,7 @@ export const SideMenu = () => {
           theme={theme}
           href="/"
           underline="none"
-          onClick={handleNavigateToMainPage}
+          onClick={navigateToMainPage}
           level="h2"
         >
           Lawcons
@@ -88,6 +89,7 @@ export const SideMenu = () => {
             fullWidth
             size="sm"
             startDecorator={<SchoolIcon />}
+            onClick={navigateToLawyersPage}
             sx={{
               display: 'flex',
               justifyContent: 'flex-start',
@@ -102,7 +104,7 @@ export const SideMenu = () => {
         <Button
           fullWidth
           startDecorator={currentUser ? <LogoutIcon /> : <LoginIcon />}
-          onClick={currentUser ? logout : handleNavigateToLoginPage}
+          onClick={currentUser ? logout : navigateToLoginPage}
         >
           {currentUser ? 'Вийти з акаунту' : 'Увійти в акаунт'}
         </Button>
