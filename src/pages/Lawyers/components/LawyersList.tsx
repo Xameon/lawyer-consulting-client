@@ -18,12 +18,8 @@ export const LawyersList = ({ lawyers }: LawyerListProps) => {
       <tbody>
         {lawyers.map(({ email, firstName, lastName }) => (
           <tr>
-            <td>
-              <Skeleton variant="rectangular">{firstName}</Skeleton>
-            </td>
-            <td>
-              <Skeleton variant="rectangular">{lastName}</Skeleton>
-            </td>
+            <td>{firstName}</td>
+            <td>{lastName}</td>
             <td>{email}</td>
           </tr>
         ))}

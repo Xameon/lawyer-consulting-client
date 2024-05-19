@@ -17,3 +17,13 @@ export const lawyers = async (params: LawyersParams) => {
 
 // #endregion
 // ..................................................
+
+// ..................................................
+// #region Get Lawyer by ID
+
+export const  = () => {
+  
+}
+
+// #endregion
+// ..................................................
