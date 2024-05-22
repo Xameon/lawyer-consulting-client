@@ -17,12 +17,6 @@ export type AuthTokensNullable = {
 export type User = {
   id: number;
   email: string;
-  avatar: string;
-};
-
-export type Lawyer = {
-  id: number;
-  email: string;
   phone: string;
   firstName: string;
   lastName: string;
@@ -30,3 +24,19 @@ export type Lawyer = {
   role: 'lawyer';
   avatar: string;
 };
+
+export type Lawyer = User & {
+  lawyer: {
+    education: string;
+    experience: string;
+    description: string;
+    hourly_rate: number;
+    created_at: string;
+    updated_at: string;
+  } | null;
+};
+
+export enum Roles {
+  user = 'user',
+  lawyer = 'lawyer',
+}

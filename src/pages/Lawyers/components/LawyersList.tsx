@@ -1,8 +1,9 @@
-import { Skeleton, Table, Typography } from '@mui/joy';
-import { Lawyer } from '../../../types/globalTypes';
+import { Table, Typography } from '@mui/joy';
+import { User } from '../../../types/globalTypes';
+import { TableRow } from './TableRow';
 
 type LawyerListProps = {
-  lawyers: Lawyer[] | undefined;
+  lawyers: User[] | undefined;
 };
 
 export const LawyersList = ({ lawyers }: LawyerListProps) => {
@@ -13,15 +14,12 @@ export const LawyersList = ({ lawyers }: LawyerListProps) => {
           <th style={{ width: '20%' }}>Ім'я</th>
           <th style={{ width: '20%' }}>Прізвище</th>
           <th>Email</th>
+          <th aria-label="empty" />
         </tr>
       </thead>
       <tbody>
-        {lawyers.map(({ email, firstName, lastName }) => (
-          <tr>
-            <td>{firstName}</td>
-            <td>{lastName}</td>
-            <td>{email}</td>
-          </tr>
+        {lawyers.map((lawyer) => (
+          <TableRow key={lawyer.id} lawyer={lawyer} />
         ))}
       </tbody>
     </Table>

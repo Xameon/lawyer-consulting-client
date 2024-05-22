@@ -1,7 +1,7 @@
 // ..................................................
 // #region Get Lawyers List
 
-import { Lawyer } from '../types/globalTypes';
+import { Lawyer, User } from '../types/globalTypes';
 import { api } from './api';
 
 export type LawyersParams = {
@@ -10,7 +10,7 @@ export type LawyersParams = {
 };
 
 export const lawyers = async (params: LawyersParams) => {
-  const res = await api.get<Lawyer[]>('/user/lawyers', { params });
+  const res = await api.get<User[]>('/user/lawyers', { params });
 
   return res.data;
 };
@@ -21,9 +21,19 @@ export const lawyers = async (params: LawyersParams) => {
 // ..................................................
 // #region Get Lawyer by ID
 
-export const  = () => {
-  
-}
+export type LawyerByIdParams = {
+  id?: string;
+};
+
+export const lawyerById = async ({ id }: LawyerByIdParams) => {
+  if (!id) {
+    throw new Error('Invalid URL');
+  }
+
+  const res = await api.get<Lawyer>(`/user/lawyer/${id}`);
+
+  return res.data;
+};
 
 // #endregion
 // ..................................................

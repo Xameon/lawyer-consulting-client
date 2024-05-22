@@ -1,9 +1,11 @@
 import { Box, Button, Link, styled, useTheme } from '@mui/joy';
 import { useLinkClickHandler } from 'react-router-dom';
-import { ThemeStyle } from '../../types/globalTypes';
+import { Roles, ThemeStyle } from '../../types/globalTypes';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SchoolIcon from '@mui/icons-material/School';
+import ChatIcon from '@mui/icons-material/Chat';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useAuth } from '../../hooks/useAuth';
 
 // ..................................................
@@ -56,6 +58,8 @@ export const SideMenu = () => {
 
   const { currentUser, logout } = useAuth();
 
+  console.log({ currentUser });
+
   // ..................................................
   // Misc Hooks
 
@@ -67,6 +71,9 @@ export const SideMenu = () => {
   const navigateToMainPage = useLinkClickHandler('/');
   const navigateToLoginPage = useLinkClickHandler('/login');
   const navigateToLawyersPage = useLinkClickHandler('/lawyers');
+  const navigateToProfilePage = useLinkClickHandler(
+    `/lawyer/${currentUser?.id}`
+  );
 
   // ..................................................
   // Render
@@ -84,6 +91,21 @@ export const SideMenu = () => {
           Lawcons
         </LawconsLink>
         <LinksListContainer>
+          {currentUser?.role === Roles.lawyer && (
+            <Button
+              variant="soft"
+              fullWidth
+              size="sm"
+              startDecorator={<AccountBoxIcon />}
+              onClick={navigateToProfilePage}
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-start',
+              }}
+            >
+              Профіль
+            </Button>
+          )}
           <Button
             variant="soft"
             fullWidth
@@ -96,6 +118,18 @@ export const SideMenu = () => {
             }}
           >
             Юристи
+          </Button>
+          <Button
+            variant="soft"
+            fullWidth
+            size="sm"
+            startDecorator={<ChatIcon />}
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+            }}
+          >
+            Чати
           </Button>
         </LinksListContainer>
       </SideMenuUpper>
