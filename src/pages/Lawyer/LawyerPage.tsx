@@ -1,8 +1,9 @@
-import { Box, Typography } from '@mui/joy';
-import { useParams } from 'react-router-dom';
+import { Box, Button, Typography } from '@mui/joy';
+import { useLinkClickHandler, useParams } from 'react-router-dom';
 import { useLawyerById } from '../../hooks/user/useLawyerById';
 import { useAuth } from '../../hooks/useAuth';
 import { useEffect } from 'react';
+import { Roles } from '../../types/globalTypes';
 
 export const LawyerPage = () => {
   const { id } = useParams();
@@ -11,9 +12,19 @@ export const LawyerPage = () => {
 
   const { data } = useLawyerById({ id });
 
+  const navigateToChatPage = useLinkClickHandler(`/chat/${id}`);
+
   useEffect(() => {
     document.title = 'Lawcons | Профіль';
   }, []);
+
+  if (!currentUser) {
+    return <Typography>Unauthorized</Typography>;
+  }
+
+  if (!id) {
+    return <Typography>Params Error</Typography>;
+  }
 
   return (
     <Box
@@ -22,7 +33,9 @@ export const LawyerPage = () => {
         flexDirection: 'column',
       }}
     >
-      {currentUser?.id == id && <Typography level="h4">Мій профіль</Typography>}
+      {currentUser.id === +id && (
+        <Typography level="h4">Мій профіль</Typography>
+      )}
       <Typography>{`${data?.firstName} ${data?.lastName}`}</Typography>
       <Typography>{data?.email}</Typography>
       <Box>
@@ -37,6 +50,9 @@ export const LawyerPage = () => {
           </>
         )}
       </Box>
+      {currentUser.id !== +id && currentUser.role === Roles.user && (
+        <Button onClick={navigateToChatPage}>Написати</Button>
+      )}
     </Box>
   );
 };
