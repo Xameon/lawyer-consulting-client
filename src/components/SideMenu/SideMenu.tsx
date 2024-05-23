@@ -58,8 +58,6 @@ export const SideMenu = () => {
 
   const { currentUser, logout } = useAuth();
 
-  console.log({ currentUser });
-
   // ..................................................
   // Misc Hooks
 
@@ -71,6 +69,7 @@ export const SideMenu = () => {
   const navigateToMainPage = useLinkClickHandler('/');
   const navigateToLoginPage = useLinkClickHandler('/login');
   const navigateToLawyersPage = useLinkClickHandler('/lawyers');
+  const navigateToChatsPage = useLinkClickHandler('/chats');
   const navigateToProfilePage = useLinkClickHandler(
     `/lawyer/${currentUser?.id}`
   );
@@ -124,6 +123,7 @@ export const SideMenu = () => {
             fullWidth
             size="sm"
             startDecorator={<ChatIcon />}
+            onClick={navigateToChatsPage}
             sx={{
               display: 'flex',
               justifyContent: 'flex-start',

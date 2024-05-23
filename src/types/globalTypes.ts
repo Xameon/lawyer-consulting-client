@@ -14,6 +14,11 @@ export type AuthTokensNullable = {
   refreshToken: string | null;
 };
 
+export enum Roles {
+  user = 'user',
+  lawyer = 'lawyer',
+}
+
 export type User = {
   id: number;
   email: string;
@@ -21,7 +26,7 @@ export type User = {
   firstName: string;
   lastName: string;
   middleName: string;
-  role: 'lawyer';
+  role: Roles;
   avatar: string;
 };
 
@@ -36,7 +41,39 @@ export type Lawyer = User & {
   } | null;
 };
 
-export enum Roles {
-  user = 'user',
-  lawyer = 'lawyer',
-}
+export type MessageLite = {
+  authorId: number;
+  text: string;
+  my?: boolean;
+};
+
+export type ChatMetadata = {
+  clientId: number;
+  created_at: string;
+  id: number;
+  lawyerId: number;
+  status: string;
+  subject: string;
+  updated_at: string;
+};
+
+export type Message = {
+  chatId: number;
+  clientId: number;
+  created_at: string;
+  id: number;
+  lawyerId: number;
+  text: string;
+  updated_at: string;
+};
+
+export type Chat = {
+  id: number;
+  text: string;
+  chatId: number;
+  lawyerId: number;
+  clientId: number;
+  created_at: string;
+  updated_at: string;
+  message: Message[];
+};

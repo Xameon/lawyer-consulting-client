@@ -13,7 +13,7 @@ export const App = () => {
       }}
     >
       <SideMenu />
-      <Box sx={{ padding: '1rem' }}>
+      <Box sx={{ padding: '1rem', maxHeight: '100vh' }}>
         <Outlet />
       </Box>
     </Box>
