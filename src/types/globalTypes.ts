@@ -30,6 +30,11 @@ export type User = {
   avatar: string;
 };
 
+export type LawyerMetadata = User & {
+  hourly_rate: number;
+  averageMark: number;
+};
+
 export type Lawyer = User & {
   lawyer: {
     education: string;

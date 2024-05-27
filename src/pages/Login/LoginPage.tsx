@@ -40,6 +40,7 @@ export const LoginPage = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        mt: '10rem',
       }}
     >
       <LoginForm />

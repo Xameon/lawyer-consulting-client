@@ -1,7 +1,7 @@
 // ..................................................
 // #region Get Lawyers List
 
-import { Lawyer, User } from '../types/globalTypes';
+import { Lawyer, LawyerMetadata } from '../types/globalTypes';
 import { api } from './api';
 
 export type LawyersParams = {
@@ -10,7 +10,7 @@ export type LawyersParams = {
 };
 
 export const lawyers = async (params: LawyersParams) => {
-  const res = await api.get<User[]>('/user/lawyers', { params });
+  const res = await api.get<LawyerMetadata[]>('/user/lawyers', { params });
 
   return res.data;
 };
