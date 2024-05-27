@@ -42,6 +42,7 @@ export const RegisterPage = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        mt: '10rem',
       }}
     >
       <RegisterForm />

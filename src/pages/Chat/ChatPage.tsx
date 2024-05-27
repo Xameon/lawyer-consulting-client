@@ -10,7 +10,7 @@ import {
   IconButton,
 } from '@mui/joy';
 import { useAuth } from '../../hooks/useAuth';
-import { MessageLite, ThemeStyle } from '../../types/globalTypes';
+import { Chat, MessageLite, ThemeStyle } from '../../types/globalTypes';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useChat } from '../../hooks/chats/useChat';
 import { Message } from './components/Message';
@@ -56,6 +56,7 @@ export const ChatPage = () => {
   const [messageQueue, setMessageQueue] = useState<MessageLite[]>([]);
   const [messages, setMessages] = useState<MessageLite[]>([]);
   const [inputMessage, setInputMessage] = useState<string>('');
+  const [chatHistory, setChatHistory] = useState<Chat | null>(null);
 
   const chatBoxRef = useRef<HTMLDivElement>(null);
 
@@ -72,7 +73,7 @@ export const ChatPage = () => {
 
   const theme = useTheme();
 
-  if (!id || !chatId || !currentUser) {
+  if (!id || !currentUser) {
     return <Typography>Error</Typography>;
   }
 
@@ -114,7 +115,15 @@ export const ChatPage = () => {
   // ..................................................
   // API Hooks
 
-  const { data: chatHistory, isLoading: chatLoading } = useChat({ id: chatId });
+  const { mutateAsync: getChatHistory, isPending: chatLoading } = useChat();
+
+  useEffect(() => {
+    if (chatId) {
+      getChatHistory({ id: chatId }).then((data) => {
+        setChatHistory(data);
+      });
+    }
+  }, []);
 
   useLayoutEffect(() => {
     if (chatBoxRef.current) {
@@ -124,10 +133,6 @@ export const ChatPage = () => {
 
   if (chatLoading) {
     return <CircularProgress />;
-  }
-
-  if (!chatHistory) {
-    return <Typography>Error</Typography>;
   }
 
   const sendMessage = (message: MessageLite) => {
@@ -165,7 +170,7 @@ export const ChatPage = () => {
         Чат
       </Typography>
       <ChatContainer theme={theme} ref={chatBoxRef}>
-        {chatHistory.message.map((msg) => (
+        {chatHistory?.message.map((msg) => (
           <Message key={msg.id} message={msg} />
         ))}
         {messages.map((msg, idx) => (

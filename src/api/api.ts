@@ -14,3 +14,9 @@ export const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+const universitiesApiUrl = import.meta.env.VITE_UNIVERSITIES_API_URL;
+
+export const universitiesApi = axios.create({
+  baseURL: universitiesApiUrl,
+});

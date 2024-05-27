@@ -1,31 +1,82 @@
-import { Table, Typography } from '@mui/joy';
-import { User } from '../../../types/globalTypes';
-import { TableRow } from './TableRow';
+import { Box, Button } from '@mui/joy';
+import { LawyerMetadata } from '../../../types/globalTypes';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { useNavigate } from 'react-router-dom';
 
 type LawyerListProps = {
-  lawyers: User[] | undefined;
+  lawyers: LawyerMetadata[] | undefined;
 };
 
 export const LawyersList = ({ lawyers }: LawyerListProps) => {
-  return lawyers?.length ? (
-    <Table>
-      <thead>
-        <tr>
-          <th style={{ width: '20%' }}>Ім'я</th>
-          <th style={{ width: '20%' }}>Прізвище</th>
-          <th>Email</th>
-          <th aria-label="empty" />
-        </tr>
-      </thead>
-      <tbody>
-        {lawyers.map((lawyer) => (
-          <TableRow key={lawyer.id} lawyer={lawyer} />
-        ))}
-      </tbody>
-    </Table>
-  ) : (
-    <Typography level="h4" color="neutral" marginTop="15rem">
-      Вибачте, але ми нічого не знайшли
-    </Typography>
+  const navigate = useNavigate();
+
+  const columns: GridColDef<LawyerMetadata>[] = [
+    {
+      field: 'fullName',
+      headerName: "Ім'я",
+      width: 200,
+      valueGetter: (_, row) => `${row.firstName} ${row.lastName}`,
+    },
+    {
+      field: 'email',
+      headerName: 'Email',
+      width: 250,
+      editable: true,
+    },
+    {
+      field: 'hourly_rate',
+      headerName: 'Ціна консультації (₴)',
+      width: 175,
+      headerAlign: 'center',
+      align: 'center',
+    },
+    {
+      field: 'averageMark',
+      headerName: 'Середня оцінка',
+      width: 150,
+      headerAlign: 'center',
+      align: 'center',
+    },
+    {
+      field: 'profile',
+      headerName: '',
+      width: 100,
+      headerAlign: 'center',
+      align: 'center',
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: (law) => (
+        <Button
+          onClick={() => {
+            navigate(`/lawyer/${law.row.id.toString()}`);
+          }}
+        >
+          Профіль
+        </Button>
+      ),
+    },
+  ];
+
+  return (
+    <Box sx={{ height: '100%', width: '100%' }}>
+      <DataGrid
+        rows={lawyers}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 13,
+            },
+          },
+        }}
+        pageSizeOptions={[13]}
+        disableColumnMenu
+        disableColumnSelector
+        disableDensitySelector
+        disableMultipleRowSelection
+        disableRowSelectionOnClick
+        disableColumnResize
+      />
+    </Box>
   );
 };
